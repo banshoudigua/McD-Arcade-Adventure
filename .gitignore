@@ -1,0 +1,48 @@
+# 忽略所有真实凭证与本地环境文件（严禁提交 Git）
+.env
+.env.local
+.env.*.local
+
+# MCP Token 相关通配保险（任何文件名中出现 token 都不入库）
+*token*
+*.token
+mcp-credentials.json
+
+# 依赖与构建产物
+node_modules/
+dist/
+build/
+.output/
+
+# 日志（含请求头，可能带 Token）
+*.log
+logs/
+
+# 本地缓存与快照（快照含真实数据，可选择性提交脱敏版）
+.cache/
+tmp/
+*.cache
+
+# 编辑器与系统文件
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# 注意：data/mcd-snapshot.json 含个人隐私（手机号、accountId），
+# 已通过 backend/sanitize-snapshot.js 生成脱敏版本 mcd-snapshot.public.json。
+# 提交开源仓库时只提交 public 版本。
+data/mcd-snapshot.json
+# 运行时目录（pid 记录等）
+.runtime/
+# 工作区内部记忆与 AI 生成原图（原图体积大且 memory 曾记录过 Token，不入库）
+.workbuddy/
+generated-images/
+tmp_imgs/
+
+# WorkBuddy 发布应用生成的本地配置文件（含本机路径，不应入库）
+.wbapp_*.genie
+
+# 内部开发流水（本地保留维护，公开仓库不展示）
+AI更新历史.md

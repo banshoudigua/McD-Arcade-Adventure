@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>麦麦奇幻乐园</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<!-- ===== 首页：开园设置 ===== -->
+<section class="page" id="page-home">
+  <div class="hero">
+    <img class="hero-img" src="/assets/hero.jpg" alt="麦麦奇幻乐园入口">
+    <div class="hero-mask"></div>
+    <div class="hero-text">
+      <div class="arch-gate"></div>
+      <h1 class="hero-title">麦麦奇幻乐园</h1>
+      <p class="hero-sub">餐品伙伴陪你闯关 · 数据来自麦当劳 MCP 真实接口</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2 class="panel-title">开园设置</h2>
+
+    <div class="field">
+      <label><span class="step-no">1</span>玩家人数</label>
+      <div class="seg" id="seg-count">
+        <button class="seg-btn" data-count="2">2 人</button>
+        <button class="seg-btn active" data-count="3">3 人</button>
+        <button class="seg-btn" data-count="4">4 人</button>
+        <button class="seg-btn" data-count="5">5 人</button>
+        <button class="seg-btn" data-count="6">6 人</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span class="step-no">2</span>胜利目标</label>
+      <div class="seg wrap" id="seg-victory">
+        <button class="seg-btn active" data-victory="fame">欢乐值最高</button>
+        <button class="seg-btn" data-victory="collection">卡牌收藏最多</button>
+        <button class="seg-btn" data-victory="reach">率先到终点</button>
+        <button class="seg-btn" data-victory="shield">护盾最多</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span class="step-no">3</span>回合数上限 <span class="field-tip">1 回合 = 每位玩家各行动一次</span></label>
+      <div class="seg wrap" id="seg-round">
+        <button class="seg-btn" data-round="5">5 回合</button>
+        <button class="seg-btn active" data-round="10">10 回合</button>
+        <button class="seg-btn" data-round="15">15 回合</button>
+        <button class="seg-btn" data-round="20">20 回合</button>
+        <button class="seg-btn" data-round="30">30 回合</button>
+      </div>
+      <p class="hint">地图共 30 格，平均每回合前进 3~4 格：选 10 回合刚好够跑完一圈，想稳稳分出胜负建议 15 回合以上。</p>
+    </div>
+
+    <div class="field">
+      <label><span class="step-no">4</span>音效</label>
+      <div class="sound-row">
+        <button class="btn-sound" type="button">🔊</button>
+        <span class="sound-tip" id="sound-row-tip">音效已开启</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-primary" id="btn-to-select">进入选卡页面</button>
+
+  <div class="mcp-badge" id="mcp-badge">MCP 连接检测中...</div>
+</section>
+
+<!-- ===== 选卡页 ===== -->
+<section class="page hidden" id="page-select">
+  <div class="topbar">
+    <button class="btn-back" data-back="home">返回</button>
+    <h2 class="topbar-title">选择你的餐品伙伴</h2>
+    <button class="btn-sound" type="button">🔊</button>
+  </div>
+  <p class="hint">属性由麦当劳真实营养数据推导：力量/策略/欢乐/统率</p>
+  <div class="card-grid" id="card-grid"></div>
+  <div class="select-footer">
+    <span id="select-tip">已选 0 / 3</span>
+    <button class="btn-primary" id="btn-start" disabled>开始游戏</button>
+  </div>
+</section>
+
+<!-- ===== 对局页 ===== -->
+<section class="page hidden" id="page-game">
+  <div class="topbar">
+    <button class="btn-back" data-back="home">退出</button>
+    <h2 class="topbar-title" id="round-title">第 1 回合</h2>
+    <button class="btn-undo" id="btn-undo" title="回退上一步">回退</button>
+    <button class="btn-sound" type="button">🔊</button>
+  </div>
+
+  <div class="turn-banner" id="turn-banner">当前玩家</div>
+
+  <div class="players" id="players"></div>
+
+  <div class="board-wrap">
+    <div class="board-ring" id="board"></div>
+  </div>
+
+  <div class="roll-area">
+    <div class="dice" id="dice">?</div>
+    <button class="btn-primary" id="btn-roll">掷骰子</button>
+    <p class="next-turn-tip" id="next-turn-tip"></p>
+  </div>
+
+  <div class="log" id="log"></div>
+</section>
+
+<!-- ===== 结算页 ===== -->
+<section class="page hidden" id="page-result">
+  <div class="result-wrap">
+    <h2 class="result-title">🎉 对局结束</h2>
+    <div id="result-reason" class="result-reason"></div>
+    <div id="result-list" class="result-list"></div>
+    <button class="btn-primary" id="btn-to-prize">前往奖品屋</button>
+    <button class="btn-ghost" id="btn-restart">再来一局</button>
+  </div>
+</section>
+
+<!-- ===== 奖品屋页 ===== -->
+<section class="page hidden" id="page-prize">
+  <div class="topbar">
+    <button class="btn-back" data-back="home">返回</button>
+    <h2 class="topbar-title">麦麦奖品屋</h2>
+    <button class="btn-sound" type="button">🔊</button>
+  </div>
+  <div class="prize-hero">
+    <img src="/assets/banner.jpg" alt="麦麦奖品屋">
+    <div class="prize-hero-cap">🎁 真实奖品 · 数据来自麦当劳官方 MCP 接口</div>
+  </div>
+
+  <!-- 获胜者横幅：结算后进入本页，提示挑选奖励 -->
+  <div class="prize-winner hidden" id="prize-winner"></div>
+
+  <!-- 我的账号：BYOT 本地只读绑定（Token 仅存本机浏览器） -->
+  <div class="account-card" id="account-card"></div>
+
+  <div class="points-bar">
+    <span id="points-label">演示账号积分</span>
+    <strong id="points-value">读取中...</strong>
+  </div>
+
+  <!-- 奖励分类：三类真实商品均来自麦当劳 MCP -->
+  <div class="reward-tabs" id="reward-tabs"></div>
+
+  <!-- 筛选 / 搜索 / 排序 -->
+  <div class="reward-toolbar" id="reward-toolbar">
+    <div class="reward-search-row">
+      <span class="search-icon">🔍</span>
+      <input type="search" id="reward-search" class="reward-search" placeholder="搜索商品名或编码，如「生日派对」「8516」" autocomplete="off">
+      <button class="search-clear hidden" id="reward-search-clear" title="清空">×</button>
+    </div>
+    <div class="reward-sorts" id="reward-sorts">
+      <button class="sort-btn active" data-sort="default">推荐</button>
+      <button class="sort-btn" data-sort="hot">🔥 热门</button>
+      <button class="sort-btn" data-sort="priceAsc">价格 ↑</button>
+      <button class="sort-btn" data-sort="priceDesc">价格 ↓</button>
+      <button class="sort-btn" data-sort="cat">按类别</button>
+    </div>
+    <div class="reward-cats" id="reward-cats"></div>
+  </div>
+
+  <p class="hint">奖励为麦当劳真实在售商品/优惠券，选定后凭凭证到官方渠道兑换</p>
+  <div class="prize-grid" id="prize-grid"></div>
+</section>
+
+<!-- ===== 弹窗 ===== -->
+<div class="modal-mask hidden" id="modal-mask">
+  <div class="modal">
+    <h3 class="modal-title" id="modal-title"></h3>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<script src="/sound.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

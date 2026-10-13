@@ -1,0 +1,27 @@
+{
+  "name": "mcd-arcade-adventure",
+  "version": "1.0.0",
+  "description": "麦麦奇幻乐园 - 以麦当劳餐品为角色的儿童乐园卡牌桌游，数据来自麦当劳 MCP 真实接口",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node scripts/start.js",
+    "serve": "node backend/server.js",
+    "stop": "node scripts/stop.js",
+    "status": "node scripts/status.js",
+    "pull-data": "node backend/pull-mcd-data.js",
+    "sanitize": "node backend/sanitize-snapshot.js",
+    "test": "node test/engine.test.js && node test/frontend-sim.test.js",
+    "test:e2e": "node test/e2e-flow.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcdonald",
+    "mcp",
+    "card-game",
+    "workbuddy"
+  ],
+  "license": "MIT"
+}
